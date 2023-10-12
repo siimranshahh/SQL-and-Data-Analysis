@@ -75,6 +75,7 @@ INSERT INTO BIT_DB.CityBikeLanes values(60,2002, 2021,"Mouse",4.5,4.3,"no");
 
 #Using CTE testing which of the bike lanes that have an average safety rating of 4.0 or higher and labeling them as 'Safe Lane'
 -- THE CODE BELOW THIS LINE IS THE CTE -- 
+
 WITH safety_average_cte AS (
 SELECT street, AVG(safetyrating) as 'rating'
 FROM citybikelanes
@@ -91,6 +92,7 @@ WHERE rating >=4
 -- THE CODE ABOVE THIS LINE IS A SQL QUERY THAT SELECTS FROM THE CTE --
 
 #Taking the average of safetyrating over the entire result set, partitioned by street
+
 SELECT street, safetyrating,
 AVG(safetyrating) OVER (PARTITION BY street) as "Average_safety_rating"
 FROM CityBikeLanes
@@ -99,6 +101,7 @@ GROUP BY street
 
 # Listing all bike lanes, and both safety ratings for each lane and the average safety rating. For each lane label recommendation:
 #"Remove" (if rating is <2.5), "leave As-Is" (if rating is >=4) and "Improvements needed for other cases
+
 SELECT street, safetyrating,
 AVG(safetyrating) OVER (PARTITION BY street) as "Average_safety_rating",
 CASE WHEN "Average_safety_rating" >=4 THEN "Leave As-Is"
